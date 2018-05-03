@@ -61,55 +61,39 @@ _process_service_name(
 
   rcutils_allocator_t allocator = rcutils_get_default_allocator();
 
+  std::string _ros_request_prefix = "";
+  std::string _ros_response_prefix = "";
+
   if (!avoid_ros_namespace_conventions) {
-    // concat the ros_service_*_prefix and Request/Reply suffixes with the service_name
-    char * request_concat_str = rcutils_format_string(
-      allocator,
-      "%s%s%s", ros_service_requester_prefix, service_name, "Request");
-    if (!request_concat_str) {
-      allocator.deallocate(request_concat_str, allocator.state);
-      RMW_SET_ERROR_MSG("could not allocate memory for request topic string")
-      success = false;
-      goto end;
-    }
-    char * response_concat_str = rcutils_format_string(
-      allocator,
-      "%s%s%s", ros_service_response_prefix, service_name, "Reply");
-    if (!response_concat_str) {
-      allocator.deallocate(response_concat_str, allocator.state);
-      RMW_SET_ERROR_MSG("could not allocate memory for response topic string")
-      success = false;
-      goto end;
-    }
-    *request_topic_str = DDS_String_dup(request_concat_str);
-    *response_topic_str = DDS_String_dup(response_concat_str);
-    allocator.deallocate(request_concat_str, allocator.state);
-    allocator.deallocate(response_concat_str, allocator.state);
-  } else {
-    // concat Request/Reply suffixes with the service_name
-    char * request_concat_str = rcutils_format_string(
-      allocator,
-      "%s%s", service_name, "Request");
-    if (!request_concat_str) {
-      allocator.deallocate(request_concat_str, allocator.state);
-      RMW_SET_ERROR_MSG("could not allocate memory for request topic string")
-      success = false;
-      goto end;
-    }
-    char * response_concat_str = rcutils_format_string(
-      allocator,
-      "%s%s", service_name, "Reply");
-    if (!response_concat_str) {
-      allocator.deallocate(response_concat_str, allocator.state);
-      RMW_SET_ERROR_MSG("could not allocate memory for response topic string")
-      success = false;
-      goto end;
-    }
-    *request_topic_str = DDS_String_dup(request_concat_str);
-    *response_topic_str = DDS_String_dup(response_concat_str);
-    allocator.deallocate(request_concat_str, allocator.state);
-    allocator.deallocate(response_concat_str, allocator.state);
+    // Set ros specific request and response prefixes
+    _ros_request_prefix = ros_service_requester_prefix;
+    _ros_response_prefix = ros_service_response_prefix;
   }
+
+  {
+    // concat the service_name with ros_service_*_prefix (if required) and Request/Reply suffixes
+  char * request_concat_str = rcutils_format_string(
+    allocator,
+    "%s%s%s", ros_service_requester_prefix, service_name, "Request");
+  if (!request_concat_str) {
+    RMW_SET_ERROR_MSG("could not allocate memory for request topic string")
+    success = false;
+    goto end;
+  }
+  char * response_concat_str = rcutils_format_string(
+    allocator,
+    "%s%s%s", ros_service_response_prefix, service_name, "Reply");
+  if (!response_concat_str) {
+    allocator.deallocate(request_concat_str, allocator.state);
+    RMW_SET_ERROR_MSG("could not allocate memory for response topic string")
+    success = false;
+    goto end;
+  }
+  *request_topic_str = DDS_String_dup(request_concat_str);
+  *response_topic_str = DDS_String_dup(response_concat_str);
+  allocator.deallocate(request_concat_str, allocator.state);
+  allocator.deallocate(response_concat_str, allocator.state);
+}
 
 end:
   return success;
