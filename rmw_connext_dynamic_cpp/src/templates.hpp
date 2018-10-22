@@ -38,7 +38,7 @@
 #include "rosidl_typesupport_introspection_c/service_introspection.h"
 #include "rosidl_typesupport_introspection_c/visibility_control.h"
 
-#include "./macros.hpp"
+#include "macros.hpp"
 
 /********** Utility structs **********/
 

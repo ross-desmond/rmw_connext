@@ -15,7 +15,7 @@
 #include "rmw/error_handling.h"
 #include "rmw/rmw.h"
 
-#include "./type_support_common.hpp"
+#include "type_support_common.hpp"
 
 // include patched generated code from the build folder
 #include "connext_static_serialized_dataSupport.h"

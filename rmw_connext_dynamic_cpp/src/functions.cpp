@@ -76,9 +76,9 @@
 #include "rmw_connext_shared_cpp/shared_functions.hpp"
 #include "rmw_connext_shared_cpp/types.hpp"
 
-#include "./macros.hpp"
-#include "./publish_take.hpp"
-#include "./utility_templates.hpp"
+#include "macros.hpp"
+#include "publish_take.hpp"
+#include "utility_templates.hpp"
 
 ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_LOCAL
 inline std::string

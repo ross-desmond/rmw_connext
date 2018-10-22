@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "./publish_take.hpp"
-#include "./templates.hpp"
+#include "publish_take.hpp"
+#include "templates.hpp"
 
 bool using_introspection_c_typesupport(const char * typesupport_identifier)
 {

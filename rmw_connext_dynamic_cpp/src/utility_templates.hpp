@@ -46,7 +46,7 @@
 #include "rosidl_typesupport_introspection_c/service_introspection.h"
 #include "rosidl_typesupport_introspection_c/visibility_control.h"
 
-#include "./macros.hpp"
+#include "macros.hpp"
 
 template<typename MembersType>
 ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_LOCAL
